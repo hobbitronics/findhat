@@ -29,8 +29,8 @@ class Field {
     if(question.toLowerCase() === 'y'){
     let width = prompt('How wide do you want the map?');
     let height = prompt('How tall do you want the map?');
-    let randomH = Math.floor(Math.random()*height)
-    let randomW = Math.floor(Math.random()*width)
+    let randomH = Field.randomNum(height);
+    let randomW = Field.randomNum(width);
     let newMap = Field.generateField(height, width);
     this.field = newMap;
     this.myPosition = [randomH, randomW];
@@ -185,20 +185,58 @@ class Field {
     this.field[i][j] = fieldCharacter;
     }
   }
+//finds index of last field
+  static tunnel(array, row, height, width){ //height is of this array
+    console.log('tunnel')
+    let index;
+    if (row > 0 && row <= height){
+      index = array[row-1].findIndex(el => el === fieldCharacter)
+      if(index === -1){index = Field.randomNum(width-1)}
+      return index;
+    } else if (row === 0) {
+      index = array[row+1].findIndex(el => el === fieldCharacter)
+      if(index === -1){index = Field.randomNum(width-1)}
+      return index;
+    } else {
+      return 0;
+    }
+  }
 
-  static random(){ //returns random field character
-      let sample = [fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, hole, hole];
-      let num = Math.floor(Math.random()*7);
+  static randomNum (num){
+    return Math.floor(Math.random()*num)
+  }
+
+  static randomChar(){ //returns random field character
+      let sample = [fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, hole, hole, hole];
+      let num = Field.randomNum(7);
       return sample[num];
   }
 
-  static generateField(height, width){
-    let newArr = [];
-    for (let i = 0; i < height; i++) {
-      newArr.push([])
-    for (let j = 0; j < width; j++) {
-        newArr[i][j] = Field.random(); 
+  static generateField(height, width){  //creates a random field array
+    let newArr = [];                    //the field array
+    let tempArr = [];                     //stores an transposed array to check for vertical wall of 'O's
+    for (let i = 0; i < height; i++) {  //iterates down
+      newArr.push([])                   //adds rows
+    for (let j = 0; j < width; j++) {   //itereates across elements
+        newArr[i][j] = Field.randomChar();  //generates hole or field char
         }
+        if (!newArr[i].includes(fieldCharacter)){   //checks across for solid wall
+          newArr[i][Field.randomNum(width-1)] = fieldCharacter; //sets a random element to field char
+        }
+    }
+    for (let i = 0; i < width; i++){          //iterates width of field which is down in tempArr
+      tempArr.push([]);                   //adds rows to temp
+    for (let j = 0; j < height; j++){     //iterates height of newArr which is across tempArr
+      tempArr[i][j] = newArr[j][i]       //stores transposed field
+      }
+    }
+    console.log(tempArr)
+    for (let i = 0; i < width; i++) {
+      if(!tempArr[i].includes(fieldCharacter)){ //check for vertical(field) wall
+        console.log('wall detected')
+        newArr[Field.randomNum(height-1)][i] = fieldCharacter;
+        newArr[Field.tunnel(tempArr, i, width, height)][i] = fieldCharacter;   //calls tunnel to place field char next to another field char
+      }
     }
     newArr[height-1][width-1] = '^';
     return newArr;
