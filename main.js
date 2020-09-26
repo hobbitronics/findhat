@@ -38,7 +38,7 @@ class Field {
     this.hatPosition = [height-1, width-1];
     
     } else if (question.toLowerCase() !== 'y') {
-      this.field = Field.generateField(this.height+1, this.width+1);
+      //this.field = Field.generateField(this.height+1, this.width+1);
       this.field[0][0] = '*';
       this.hatPosition = [this.height, this.width];
     }
@@ -205,22 +205,20 @@ class Field {
     return Math.floor(Math.random()*num)
   }
 
-  static randomChar(difficulty){ //returns random field character
+  static randomChar(difficulty){      //returns random field character
     let sample = [];
-    if (difficulty === 1){
-      sample.push(fieldCharacter)
-      sample.push(fieldCharacter)
-      sample.push(fieldCharacter)
-      sample.push(fieldCharacter)
-      sample.push(hole)
-    } else if (difficulty === 2){
-      sample = [fieldCharacter, fieldCharacter, fieldCharacter, hole, hole];
-    } else if (difficulty === 3) {
-      sample = [fieldCharacter, fieldCharacter, hole, hole, hole];
-    } else {return hole;}
-  
-      let num = Field.randomNum(5);
-      return sample[num];
+    if (difficulty === '1'){
+      sample = [fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, hole];
+    } else if (difficulty === '2'){
+      sample = [fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, hole, hole];
+    } else if (difficulty === '3') {
+      sample = [fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, hole, hole, hole];
+    } else {
+      console.log('impossible')
+      return hole;
+    }
+      let num = Field.randomNum(7);
+      return sample[num];     //returns hole or fieldCharacter
   }
 
   //generates random field
