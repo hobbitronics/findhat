@@ -107,7 +107,7 @@ class Field {
   }
 
   print() {
-    this.field.forEach(function (el) {console.log(el.join(''))})
+    this.field.forEach( row => console.log(row.join('')))
   }
 
   up(i, j){
