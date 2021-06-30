@@ -25,7 +25,7 @@ class Field {
     this.dead = false;
     this.myPosition = [0, 0];
     this.intro();
-    let question = prompt('You have started a new game. Do you want to creat a map? y for yes, n for no: |');
+    let question = prompt('You have started a new game. Do you want to create a map? y for yes, n for no: |');
 
     if (question.toLowerCase() === 'y') {
       let width = prompt('How wide do you want the map?');
