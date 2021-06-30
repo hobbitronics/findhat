@@ -30,14 +30,12 @@ class Field {
     if (question.toLowerCase() === 'y') {
       this.width = prompt('How wide do you want the map?');
       this.height = prompt('How tall do you want the map?');
-      let randomH = Field.randomNum(this.height);
-      let randomW = Field.randomNum(this.width);
       this.field = Field.generateField(this.height, this.width);;
-      this.myPosition = [randomH, randomW];
-      this.field[randomH][randomW] = player;
-    } else if (question.toLowerCase() !== 'y') {
-      this.field[0][0] = player;
     }
+    let randomH = Field.randomNum(this.height);
+    let randomW = Field.randomNum(this.width);
+    this.myPosition = [randomH, randomW];
+    this.field[randomH][randomW] = player;
     this.hatPosition = [this.height - 1, this.width - 1];
     this.field[this.height - 1][this.width - 1] = hat
     this.play();
