@@ -3,7 +3,7 @@ const prompt = require('prompt-sync')({sigint: true});
 const hat = '^';
 const hole = 'O';
 const fieldCharacter = '░';
-const pathCharacter = '*';
+const player = '*';
 
 class Field {
   constructor(array) {
@@ -17,7 +17,7 @@ class Field {
   }
 
   intro () {
-    console.log('welcome to find my hat. You are * and your hat is ^. Move by pressing a,w,d,s,q,e,z,x then enter for left, up, right and down, etc. Avoid the holes "O" and stay on the map.')
+    console.log(`welcome to find my hat. You are "${player}" and your hat is "${hat}". Move by pressing a,w,d,s,q,e,z,x then enter for left, up, right and down, etc. Avoid the holes "${hole}" and stay on the map.`)
   }
 
   start() {     //starts the game and resets for replays
@@ -32,14 +32,13 @@ class Field {
       let height = prompt('How tall do you want the map?');
       let randomH = Field.randomNum(height);
       let randomW = Field.randomNum(width);
-      let newMap = Field.generateField(height, width);
-      this.field = newMap;
+      this.field = Field.generateField(height, width);;
       this.myPosition = [randomH, randomW];
-      this.field[randomH][randomW] = '*';
+      this.field[randomH][randomW] = player;
       this.hatPosition = [height-1, width-1];
     } else if (question.toLowerCase() !== 'y') {
       //this.field = Field.generateField(this.height+1, this.width+1);
-      this.field[0][0] = '*';
+      this.field[0][0] = player;
       this.hatPosition = [this.height, this.width];
     }
     //console.log(this.myPosition)
@@ -113,7 +112,7 @@ class Field {
     this.myPosition[0] -=1;
     this.die();
     if (!this.dead){
-    this.field[i-1][j] = '*'
+    this.field[i-1][j] = player
     this.field[i][j] = fieldCharacter;
     }
   }
@@ -122,7 +121,7 @@ class Field {
     this.myPosition[0] +=1;
     this.die();
     if (!this.dead){
-    this.field[i+1][j] = '*';
+    this.field[i+1][j] = player;
     this.field[i][j] = fieldCharacter;
     }
   }
@@ -131,7 +130,7 @@ class Field {
     this.myPosition[1] -=1;
     this.die();
     if (!this.dead){
-    this.field[i][j-1] = '*'
+    this.field[i][j-1] = player
     this.field[i][j] = fieldCharacter;
     }
   }
@@ -140,7 +139,7 @@ class Field {
     this.myPosition[1] +=1;
     this.die();
     if (!this.dead){
-    this.field[i][j+1] = '*'
+    this.field[i][j+1] = player
     this.field[i][j] = fieldCharacter;
     }
   }
@@ -150,7 +149,7 @@ class Field {
     this.myPosition[1] -=1;
     this.die();
     if (!this.dead){
-    this.field[i-1][j-1] = '*'
+    this.field[i-1][j-1] = player
     this.field[i][j] = fieldCharacter;
     }
   }
@@ -160,7 +159,7 @@ class Field {
     this.myPosition[1] +=1;
     this.die();
     if (!this.dead){
-    this.field[i-1][j+1] = '*'
+    this.field[i-1][j+1] = player
     this.field[i][j] = fieldCharacter;
     }
   }
@@ -170,7 +169,7 @@ class Field {
     this.myPosition[1] -=1;
     this.die();
     if (!this.dead){
-    this.field[i+1][j-1] = '*'
+    this.field[i+1][j-1] = player
     this.field[i][j] = fieldCharacter;
     }
   }
@@ -180,7 +179,7 @@ class Field {
     this.myPosition[1] +=1;
     this.die();
     if (!this.dead){
-    this.field[i+1][j+1] = '*'
+    this.field[i+1][j+1] = player
     this.field[i][j] = fieldCharacter;
     }
   }
@@ -260,7 +259,7 @@ class Field {
       }
     }
     //places hat
-    newArr[height-1][width-1] = '^';
+    newArr[height-1][width-1] = hat;
     return newArr;
   }
 
@@ -268,6 +267,6 @@ class Field {
 
 
 let randomField = Field.generateField(3, 3);
-const myField = new Field(randomField);
-myField.start();
-//console.log(myField.field.join(''))
+const myGame = new Field(randomField);
+myGame.start();
+//console.log(myGame.field.join(''))
