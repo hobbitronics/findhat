@@ -16,7 +16,7 @@ class Field {
     this.dead = false;
   }
 
-  intro () {
+  intro() {
     console.log(`welcome to find my hat. You are "${player}" and your hat is "${hat}". Move by pressing a,w,d,s,q,e,z,x then enter for left, up, right and down, etc. Avoid the holes "${hole}" and stay on the map.`)
   }
 
@@ -43,7 +43,6 @@ class Field {
       this.hatPosition = [this.height, this.width];
     }
     this.field[this.height][this.width] = hat
-    //console.log(this.myPosition)
     this.play();
   }
 
@@ -73,36 +72,35 @@ class Field {
     }
   }
 
-  play(){
-    if(!this.winner && !this.dead){
-    this.print();
-    let x = this.myPosition[0];
-    let y = this.myPosition[1];
-    let move = prompt("Which direction, use qweasdzxc keys?")
-    switch (move.toLowerCase()) {
-      case 'w': this.up(x, y);
-        break;
-      case 'a': this.left(x, y);
-        break;
-      case 's': this.down(x, y);
-        break;
-      case 'd': this.right(x, y);
-        break;
-      case 'q': this.topLeft(x, y);
-        break;
-      case 'e': this.topRight(x, y);
-        break;
-      case 'z': this.bottomLeft(x, y);
-        break;
-      case 'x': this.bottomRight(x, y);
-        break;
-      default: this.play();
-        break;
-    }
-    //console.log('hat: ' + this.hatPosition)  //for testing purposes
-    //console.log('me' + this.myPosition)
-    this.win();
-    this.play();
+  play() {
+    if (!this.winner && !this.dead) {
+      this.print();
+      let x = this.myPosition[0];
+      let y = this.myPosition[1];
+      let move = prompt("Which direction, use qweasdzxc keys?")
+
+      switch (move.toLowerCase()) {
+        case 'w': this.up(x, y);
+          break;
+        case 'a': this.left(x, y);
+          break;
+        case 's': this.down(x, y);
+          break;
+        case 'd': this.right(x, y);
+          break;
+        case 'q': this.topLeft(x, y);
+          break;
+        case 'e': this.topRight(x, y);
+          break;
+        case 'z': this.bottomLeft(x, y);
+          break;
+        case 'x': this.bottomRight(x, y);
+          break;
+        default: this.play();
+          break;
+      }
+      this.win();
+      this.play();
     }
   }
 
@@ -110,7 +108,7 @@ class Field {
     this.field.forEach( row => console.log(row.join('')))
   }
 
-  up(i, j){
+  up(i, j) {
     this.myPosition[0] -=1;
     this.die();
     if (!this.dead){
@@ -119,7 +117,7 @@ class Field {
     }
   }
 
-  down(i, j){
+  down(i, j) {
     this.myPosition[0] +=1;
     this.die();
     if (!this.dead){
@@ -128,7 +126,7 @@ class Field {
     }
   }
 
-  left(i, j){
+  left(i, j) {
     this.myPosition[1] -=1;
     this.die();
     if (!this.dead){
@@ -137,7 +135,7 @@ class Field {
     }
   }
 
-  right(i, j){
+  right(i, j) {
     this.myPosition[1] +=1;
     this.die();
     if (!this.dead){
@@ -269,4 +267,3 @@ class Field {
 let randomField = Field.generateField(3, 3);
 const myGame = new Field(randomField);
 myGame.start();
-//console.log(myGame.field.join(''))
