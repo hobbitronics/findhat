@@ -61,15 +61,14 @@ class Field {
     }
   }
 
-  win(){    //checks for a win and asks for a replay
+  win() {    //checks for a win and asks for a replay
     let a = JSON.stringify(this.myPosition);
     let b = JSON.stringify(this.hatPosition);
-    if (a === b){
+    if (a === b) {
       this.winner = true;
       let congratulations = prompt('Congratulations, you won! Press y then enter to play again or another key to exit:')
-      if(congratulations.toLowerCase() === 'y'){
-        this.start();
-      }
+
+      congratulations.toLowerCase() === 'y' ? this.start() : false;
     }
   }
 
