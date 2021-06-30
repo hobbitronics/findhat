@@ -28,20 +28,17 @@ class Field {
     let question = prompt('You have started a new game. Do you want to create a map? y for yes, n for no: |');
 
     if (question.toLowerCase() === 'y') {
-      let width = prompt('How wide do you want the map?');
-      let height = prompt('How tall do you want the map?');
-      this.width = width;
-      this.height = height;
-      let randomH = Field.randomNum(height);
-      let randomW = Field.randomNum(width);
-      this.field = Field.generateField(height, width);;
+      this.width = prompt('How wide do you want the map?');
+      this.height = prompt('How tall do you want the map?');
+      let randomH = Field.randomNum(this.height);
+      let randomW = Field.randomNum(this.width);
+      this.field = Field.generateField(this.height, this.width);;
       this.myPosition = [randomH, randomW];
       this.field[randomH][randomW] = player;
-      this.hatPosition = [height-1, width-1];
     } else if (question.toLowerCase() !== 'y') {
       this.field[0][0] = player;
-      this.hatPosition = [this.height - 1, this.width - 1];
     }
+    this.hatPosition = [this.height - 1, this.width - 1];
     this.field[this.height - 1][this.width - 1] = hat
     this.play();
   }
