@@ -174,14 +174,14 @@ class Field {
     }
   }
   //finds index of last field
-  static tunnel (array, row, height, width) {
+  static tunnel (fieldArray, row, height, width) {
     let index;
     if (row > 0 && row <= height){
-      index = array[row-1].findIndex(el => el === fieldCharacter)
+      index = fieldArray[row-1].findIndex(el => el === fieldCharacter)
       if (index === -1) index = Field.randomNum(width-1)
       return index;
     } else if (row === 0) {
-      index = array[row+1].findIndex(el => el === fieldCharacter)
+      index = fieldArray[row+1].findIndex(el => el === fieldCharacter)
       if (index === -1) index = Field.randomNum(width-1)
       return index;
     } else {
