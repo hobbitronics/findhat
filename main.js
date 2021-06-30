@@ -30,6 +30,8 @@ class Field {
     if (question.toLowerCase() === 'y') {
       let width = prompt('How wide do you want the map?');
       let height = prompt('How tall do you want the map?');
+      this.width = width - 1;
+      this.height = height - 1;
       let randomH = Field.randomNum(height);
       let randomW = Field.randomNum(width);
       this.field = Field.generateField(height, width);;
@@ -37,10 +39,10 @@ class Field {
       this.field[randomH][randomW] = player;
       this.hatPosition = [height-1, width-1];
     } else if (question.toLowerCase() !== 'y') {
-      //this.field = Field.generateField(this.height+1, this.width+1);
       this.field[0][0] = player;
       this.hatPosition = [this.height, this.width];
     }
+    this.field[this.height][this.width] = hat
     //console.log(this.myPosition)
     this.play();
   }
@@ -258,8 +260,6 @@ class Field {
         newArr[Field.tunnel(tempArr, i, width, height)][i] = fieldCharacter;   //calls tunnel to place field char next to another field char
       }
     }
-    //places hat
-    newArr[height-1][width-1] = hat;
     return newArr;
   }
 
