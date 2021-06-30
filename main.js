@@ -23,7 +23,6 @@ class Field {
   start() {     //starts the game and resets for replays
     this.winner = false;
     this.dead = false;
-    this.myPosition = [0, 0];
     this.intro();
     let question = prompt('You have started a new game. Do you want to create a map? y for yes, n for no: |');
 
