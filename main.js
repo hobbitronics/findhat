@@ -229,6 +229,7 @@ class Field {
     let difficulty = prompt('choose difficulty of 1 to 3:');
     let newArr = [];                    
     let tempArr = [];                   //stores a transposed array to check for vertical wall of 'O's
+    
     for (let i = 0; i < height; i++) {  //iterates down
       newArr.push([])                   //adds rows
 
