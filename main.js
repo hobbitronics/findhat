@@ -23,20 +23,20 @@ class Field {
   start() {     //starts the game and resets for replays
     this.winner = false;
     this.dead = false;
-    this.myPosition = [0, 0]
+    this.myPosition = [0, 0];
     this.intro();
     let question = prompt('You have started a new game. Do you want to creat a map? y for yes, n for no: |');
-    if(question.toLowerCase() === 'y'){
-    let width = prompt('How wide do you want the map?');
-    let height = prompt('How tall do you want the map?');
-    let randomH = Field.randomNum(height);
-    let randomW = Field.randomNum(width);
-    let newMap = Field.generateField(height, width);
-    this.field = newMap;
-    this.myPosition = [randomH, randomW];
-    this.field[randomH][randomW] = '*';
-    this.hatPosition = [height-1, width-1];
-    
+
+    if (question.toLowerCase() === 'y') {
+      let width = prompt('How wide do you want the map?');
+      let height = prompt('How tall do you want the map?');
+      let randomH = Field.randomNum(height);
+      let randomW = Field.randomNum(width);
+      let newMap = Field.generateField(height, width);
+      this.field = newMap;
+      this.myPosition = [randomH, randomW];
+      this.field[randomH][randomW] = '*';
+      this.hatPosition = [height-1, width-1];
     } else if (question.toLowerCase() !== 'y') {
       //this.field = Field.generateField(this.height+1, this.width+1);
       this.field[0][0] = '*';
@@ -46,13 +46,13 @@ class Field {
     this.play();
   }
 
-  die(){
+  die() {
     let a = this.myPosition[0];
     let b = this.myPosition[1];
     let isDead = () => {
       this.dead = true;
-      let died = prompt('You fell in a hole or fell off the map! Press y then enter to play again or another key for no')
-      if(died.toLowerCase() === 'y'){this.start();}
+      let died = prompt('You fell in a hole or fell off the map! Press y then enter to play again or another key to exit:')
+      died.toLowerCase() === 'y' && this.start()
     }
     if (a < 0 || a >= this.field.length || this.field[a][b] === undefined){
       isDead();
@@ -66,7 +66,7 @@ class Field {
     let b = JSON.stringify(this.hatPosition);
     if (a === b){
       this.winner = true;
-      let congratulations = prompt('Congratulations, you won! Press y then enter to play again or another key for no')
+      let congratulations = prompt('Congratulations, you won! Press y then enter to play again or another key to exit:')
       if(congratulations.toLowerCase() === 'y'){
         this.start();
       }
@@ -185,65 +185,71 @@ class Field {
     this.field[i][j] = fieldCharacter;
     }
   }
-//finds index of last field
-  static tunnel(array, row, height, width){
+  //finds index of last field
+  static tunnel (array, row, height, width) {
     let index;
     if (row > 0 && row <= height){
       index = array[row-1].findIndex(el => el === fieldCharacter)
-      if(index === -1){index = Field.randomNum(width-1)}
+      if (index === -1) index = Field.randomNum(width-1)
       return index;
     } else if (row === 0) {
       index = array[row+1].findIndex(el => el === fieldCharacter)
-      if(index === -1){index = Field.randomNum(width-1)}
+      if (index === -1) index = Field.randomNum(width-1)
       return index;
     } else {
       return 0;
     }
   }
 
-  static randomNum (num){
+  static randomNum (num) {
     return Math.floor(Math.random()*num)
   }
 
-  static randomChar(difficulty){      //returns random field character
-    let sample = [];
-    if (difficulty === '1'){
-      sample = [fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, hole];
+  //returns random field character
+  static randomChar (difficulty) {
+    let sampleRow = new Array(7); //creates 7 empty elements
+    sampleRow.fill(fieldCharacter) //sets all elements
+
+    if (difficulty === '1') {
+      sampleRow.fill(hole, 5, 6);
     } else if (difficulty === '2'){
-      sample = [fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, hole, hole];
+      sampleRow.fill(hole, 4, 6);
     } else if (difficulty === '3') {
-      sample = [fieldCharacter, fieldCharacter, fieldCharacter, fieldCharacter, hole, hole, hole];
+      sampleRow.fill(hole, 3, 6);
     } else {
-      console.log('impossible')
+      console.log('impossible');
       return hole;
     }
-      let num = Field.randomNum(7);
-      return sample[num];     //returns hole or fieldCharacter
+
+    let num = Field.randomNum(7);
+    return sampleRow[num];     //returns hole or fieldCharacter
   }
 
   //generates random field
-  static generateField(height, width){
-    let dif = prompt('choose difficulty of 1 to 3');
+  static generateField (height, width) {
+    let difficulty = prompt('choose difficulty of 1 to 3:');
     let newArr = [];                    
-    let tempArr = [];                     //stores an transposed array to check for vertical wall of 'O's
+    let tempArr = [];                   //stores a transposed array to check for vertical wall of 'O's
     for (let i = 0; i < height; i++) {  //iterates down
       newArr.push([])                   //adds rows
-    for (let j = 0; j < width; j++) {   //itereates across elements
-        newArr[i][j] = Field.randomChar(dif);  //generates hole or field char
-        }
+
+      for (let j = 0; j < width; j++) { //itereates across elements
+        newArr[i][j] = Field.randomChar(difficulty);  //generates hole or field char
+      }
     }
     //check for walls horizontally
     for (let i = 0; i < height; i++){
-      if (!newArr[i].includes(fieldCharacter)){   //checks across for solid wall
+      if (!newArr[i].includes(fieldCharacter)) {   //checks across for solid wall
         newArr[i][Field.randomNum(width-1)] = fieldCharacter; //sets a random element to field char
-        newArr[i][Field.tunnel(newArr, i, height, width)] = fieldCharacter; //tunnel
+        newArr[i][Field.tunnel(newArr, i, height, width)] = fieldCharacter; //makes a tunnel
       }
     }
   //creates transposed array
     for (let i = 0; i < width; i++){          //iterates width of field which is down in tempArr
-      tempArr.push([]);                   //adds rows to temp
-    for (let j = 0; j < height; j++){     //iterates height of newArr which is across tempArr
-      tempArr[i][j] = newArr[j][i]       //stores transposed field
+      tempArr.push([]);                       //adds rows to temp
+
+      for (let j = 0; j < height; j++){       //iterates height of newArr which is across tempArr
+        tempArr[i][j] = newArr[j][i]          //stores transposed field
       }
     }
     //checks for walls vertically
