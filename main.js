@@ -9,8 +9,8 @@ class Field {
   constructor(array) {
     this.field = array;
     this.myPosition = [];
-    this.height = array.length - 1;         //finds last row index of array
-    this.width = array[this.height].length - 1;  //finds last column index of array
+    this.height = array.length;         //finds last row index of array
+    this.width = array[this.height - 1].length;  //finds last column index of array
     this.hatPosition = [this.height, this.width]; //sets hat position
     this.winner = false;
     this.dead = false;
@@ -30,8 +30,8 @@ class Field {
     if (question.toLowerCase() === 'y') {
       let width = prompt('How wide do you want the map?');
       let height = prompt('How tall do you want the map?');
-      this.width = width - 1;
-      this.height = height - 1;
+      this.width = width;
+      this.height = height;
       let randomH = Field.randomNum(height);
       let randomW = Field.randomNum(width);
       this.field = Field.generateField(height, width);;
@@ -40,9 +40,9 @@ class Field {
       this.hatPosition = [height-1, width-1];
     } else if (question.toLowerCase() !== 'y') {
       this.field[0][0] = player;
-      this.hatPosition = [this.height, this.width];
+      this.hatPosition = [this.height - 1, this.width - 1];
     }
-    this.field[this.height][this.width] = hat
+    this.field[this.height - 1][this.width - 1] = hat
     this.play();
   }
 
