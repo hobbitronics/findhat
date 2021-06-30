@@ -10,7 +10,6 @@ class Field {
     this.field = array;
     this.height = array.length;         //finds last row index of array
     this.width = array[this.height - 1].length;  //finds last column index of array
-    this.hatPosition = [this.height, this.width]; //sets hat position
   }
 
   intro() {
