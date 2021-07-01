@@ -193,7 +193,7 @@ class Field {
     return Math.floor(Math.random()*num)
   }
 
-  //returns random field character
+  //returns hole or fieldCharacter
   static randomChar (difficulty) {
     let sampleRow = new Array(7); //creates 7 empty elements
     sampleRow.fill(fieldCharacter) //sets all elements
@@ -210,14 +210,14 @@ class Field {
     }
 
     let num = Field.randomNum(7);
-    return sampleRow[num];     //returns hole or fieldCharacter
+    return sampleRow[num];
   }
 
   //generates random field
   static generateField (height, width) {
     let difficulty = prompt('choose difficulty of 1 to 3:');
     let newArr = [];                    
-    let tempArr = [];                   //stores a transposed array to check for vertical wall of 'O's
+    let transposedArr = [];                   //stores a transposed array to check for vertical wall of 'O's
     
     for (let i = 0; i < height; i++) {  //iterates down
       newArr.push([])                   //adds rows
@@ -233,19 +233,19 @@ class Field {
         newArr[i][Field.tunnel(newArr, i, height, width)] = fieldCharacter; //makes a tunnel
       }
     }
-  //creates transposed array
-    for (let i = 0; i < width; i++){          //iterates width of field which is down in tempArr
-      tempArr.push([]);                       //adds rows to temp
+    //creates transposed array
+    for (let i = 0; i < width; i++){          //iterates width of field which is down in transposedArr
+      transposedArr.push([]);                       //adds rows
 
-      for (let j = 0; j < height; j++){       //iterates height of newArr which is across tempArr
-        tempArr[i][j] = newArr[j][i]          //stores transposed field
+      for (let j = 0; j < height; j++){       //iterates height of newArr which is across transposedArr
+        transposedArr[i][j] = newArr[j][i]          //stores transposed field
       }
     }
     //checks for walls vertically
     for (let i = 0; i < width; i++) {
-      if(!tempArr[i].includes(fieldCharacter)){ //check for vertical(field) wall
+      if(!transposedArr[i].includes(fieldCharacter)){ //check for vertical(field) wall
         newArr[Field.randomNum(height-1)][i] = fieldCharacter;            //puts random gap in wall of O's
-        newArr[Field.tunnel(tempArr, i, width, height)][i] = fieldCharacter;   //calls tunnel to place field char next to another field char
+        newArr[Field.tunnel(transposedArr, i, width, height)][i] = fieldCharacter;   //calls tunnel to place field char next to another field char
       }
     }
     return newArr;
