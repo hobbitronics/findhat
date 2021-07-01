@@ -1,5 +1,5 @@
 {
-  "name": "Maze-Game",
+  "name": "maze-game",
   "version": "1.0.0",
   "description": "A terminal maze-solving game.",
   "main": "main.js",
